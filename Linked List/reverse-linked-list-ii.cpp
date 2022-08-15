@@ -33,3 +33,36 @@ public:
         return res->next;
     }
 };
+
+// Alternative solution
+class Solution {
+public:
+    ListNode* reverseBetween(ListNode* head, int left, int right) {
+        ListNode* tmp = head;
+        ListNode* p = new ListNode();
+        p->next = head;
+        ListNode* newHead = p;
+        for(int i=0; i<left-1; ++i){
+            p = tmp;
+            tmp = tmp->next;
+        }
+        
+        // reversing the sublist
+        int sz = right - left + 1;
+        ListNode* prev = new ListNode();
+        prev->next = tmp;
+        ListNode* curr = tmp, *nxt;
+        
+        while(sz--){
+            nxt = curr->next;
+            curr->next = prev;
+            prev = curr;
+            curr = nxt;
+        }
+        
+        tmp->next = curr;
+        p->next = prev;
+        
+        return newHead->next;
+    }
+};
