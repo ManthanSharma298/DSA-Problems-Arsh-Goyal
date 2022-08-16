@@ -49,3 +49,27 @@ public:
         }
     }
 };
+
+// 2.2 Use refrence to change matrix
+class Solution {
+public:
+    void rotate(vector<vector<int>>& matrix) {
+        int n = matrix.size(), l = 0, r = n-1;
+        while(l < r){
+            for(int i=l; i<r; ++i){
+                int &top = matrix[l][i];
+                int &right = matrix[i][r];
+                int &bottom = matrix[r][n-i-1];
+                int &left = matrix[n-i-1][l];
+                
+                int tmp = top;
+                top = left;
+                left = bottom;
+                bottom = right;
+                right = tmp;
+            }
+            l++;
+            r--;
+        }
+    }
+};
