@@ -7,7 +7,7 @@ public:
         int r, c;
         r = n-1 - (next-1)/n;
         c = (next-1) % n;
-        if(r % 2 == n % 2) c = n-1-c;
+        if(r % 2 == n % 2) c = n-1-c;   // as we are starting from (n-1, 0) not (0, 0)
         return {r, c};
     }
     int snakesAndLadders(vector<vector<int>>& board) {
