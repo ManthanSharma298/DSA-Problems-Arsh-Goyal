@@ -1,35 +1,31 @@
 
 
-// by reversing half: O(1.5*n) ~ O(n), O(1)
+// by reversing half: O(n/2+n/2+n/2) ~ O(n), O(1)
 class Solution {
 public:
-    ListNode* reverse(ListNode* node){
-        if(node == NULL) return NULL;
-        
-        ListNode* prev = NULL, *curr = node, *tmp;
-        while(curr){
-            tmp = curr->next;
-            curr->next = prev;
-            prev = curr;
-            curr = tmp;
-        }
-        return prev;
-    }
-    
     bool isPalindrome(ListNode* head) {
-        ListNode *dummy = new ListNode();
-        dummy->next = head;
-        ListNode *s = dummy, *f = dummy;
+        // 1. finding the middle
+        ListNode* s = head, *f=  head;
         while(f && f->next){
             s = s->next;
             f = f->next->next;
         }
-        ListNode*node = reverse(s->next);
-        s = head;
-        while(node){
-            if(node->val != s->val) return false;
-            node = node->next;
+         
+        // 2. reverse second half
+        ListNode *prev = NULL, *nxt;
+        while(s){
+            nxt = s->next;
+            s->next = prev;
+            prev = s;
+            s = nxt;
+        }
+        
+        // 3. checking for palindrome
+        f = head, s = prev;
+        while(f && s){
+            if(s->val != f->val) return false;
             s = s->next;
+            f = f->next;
         }
         return true;
     }
