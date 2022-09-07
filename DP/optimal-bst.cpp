@@ -25,4 +25,3 @@ int optimalCost(vector<int>& keys, vector<int>& freq, int n)
     vector<vector<int>> dp(n, vector<int>(n, -1));
     return rec(0, n-1, keys, freq, dp);
 }
-
