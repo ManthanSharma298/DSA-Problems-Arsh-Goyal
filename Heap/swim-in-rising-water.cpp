@@ -1,6 +1,6 @@
 
 
-// O(r*c*log(r*c)), O(r*c)
+// 1. O(r*c*log(r*c)), O(r*c)
 class Solution {
 public:
     // min heap -> min element comes at last position
@@ -36,3 +36,6 @@ public:
         return 0;
     }
 };
+
+
+// 2. Binary Search: 

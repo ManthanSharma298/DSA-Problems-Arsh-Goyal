@@ -56,4 +56,32 @@ public:
 };
 
 
-// 
+// union find: O(N*logN), O(N)
+class Solution {
+public:
+    int find(int node, vector<int>& par){
+        if(par[node] == node) return node;
+        return find(par[node], par);
+    }
+    vector<int> findRedundantConnection(vector<vector<int>>& edges) {
+        int n = edges.size();
+        vector<int> par(n+1);
+        for(int i=1; i<=n; ++i) par[i] = i;
+        
+        vector<int> ans;
+        for(auto edge: edges){
+            int p1 = find(edge[1], par);
+            int p0 = find(edge[0], par);
+            if(p1 < p0){
+                par[p0] = p1;
+            }
+            else if(p1 > p0){
+                par[p1] = p0;
+            }
+            else{
+                ans = edge;
+            }
+        }
+        return ans;
+    }
+};
