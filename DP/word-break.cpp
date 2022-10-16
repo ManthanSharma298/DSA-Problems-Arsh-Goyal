@@ -31,7 +31,7 @@ public:
 };
 
 
-// 2. Using 1D DP
+// 2. Using 1D DP:
 class Solution {
 public:
     int f(int l, string s, unordered_set<string>& st, vector<int>& dp){

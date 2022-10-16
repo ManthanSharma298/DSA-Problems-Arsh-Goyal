@@ -1,6 +1,6 @@
 
 
-// 1. hashmap + sort: O(n*mlogm), O(n*(m + logm))
+// 1. hashmap + sort: O(n*mlogm), O(n)
 // where n: strs.size(), m: strs[i].size()
 class Solution {
 public:               
@@ -20,7 +20,7 @@ public:
     }
 };
 
-// hashmap + counting sort: O(n*m*26), O(n*(m + 26))
+// hashmap + counting sort: O(n*m*26), O(n)
 class Solution {
 public:        
     string cntSort(string s){
