@@ -1,29 +1,37 @@
 
 
-// Binary Search + linear decrement: O(logn + n), O(1)
+// Binary Search + linear decrement: O(logn), O(1)
 // worst case -> O(n)
 // best case -> O(logn)
 class Solution {
 public:
     bool search(vector<int>& nums, int target) {
-        int n = nums.size();
-        int l=0, r=n-1, m;
-        while(l < r){
-            while(l < r && nums[l] == nums[r]) r--;
+        int n = nums.size(), l = 0, r = n-1, m;
+        while(l <= r){
             m = l + (r-l)/2;
-            if(nums[l] <= nums[m]){
-                if(nums[l] <= target && target <= nums[m]){
-                    r = m;  
+            if(nums[m] == target) return true;
+            // if left half is sorted
+            if(nums[l] == nums[m]){
+                l++;
+            }
+            else if(nums[l] < nums[m]){
+                if(target >= nums[l] && target <= nums[m]){
+                    r = m-1;
                 }
                 else{
                     l = m+1;
                 }
             }
+            // if right half is sorted
             else{
-                if(target < nums[l] && target > nums[m]) l = m+1;
-                else r = m; 
+                if(target >= nums[m] && target <= nums[r]){
+                    l = m+1;
+                }
+                else{
+                    r = m-1;
+                }
             }
         }
-        return nums[l] == target;
+        return false;
     }
 };
