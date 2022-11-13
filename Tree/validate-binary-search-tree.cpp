@@ -3,21 +3,17 @@
 // 1. Comparing node's val with left and right range: O(n), O(h)
 class Solution {
 public:
-    bool check(TreeNode* node, int l, int r){
+    bool dfs(TreeNode* node, int mx, int mn){
         if(node == NULL) return true;
-        if(l > r) return false;
-        if(node->val < l || node->val > r) return false;
         
-        if(node->left && node->val == node->left->val) return false;
-        if(node->right && node->val == node->right->val) return false;
-        
-        bool lf = node->val == INT_MIN ? check(node->left, l, INT_MIN) : check(node->left, l, node->val-1);
-        bool rt = node->val == INT_MAX ? check(node->right, INT_MAX, r) : check(node->right, node->val+1, r);
-        
-        return lf && rt;
+        // if node->val == INT_MIN then left subtree must be empty
+        bool lf = node->val == INT_MIN ? node->left == NULL : dfs(node->left, node->val-1, mn);
+        bool rt = node->val == INT_MAX ? node->right == NULL : dfs(node->right, mx, node->val+1);
+    
+        return lf && rt && node->val >= mn && node->val <= mx;
     }
     bool isValidBST(TreeNode* root) {
-        return check(root, INT_MIN, INT_MAX);
+        return dfs(root, INT_MAX, INT_MIN);
     }
 };
 
@@ -38,6 +34,29 @@ public:
             if(prev != NULL && tp->val <= prev->val) return false;
             curr = tp->right;
             prev = tp;
+        }
+        return true;
+    }
+};
+
+// Another template: O(n), O(n)
+class Solution {
+public:
+    bool isValidBST(TreeNode* root) {
+        stack<TreeNode*> st;
+        TreeNode* curr = root;
+        TreeNode* prev = NULL;
+        while(!st.empty() || curr){
+            if(curr != NULL){
+                st.push(curr);
+                curr = curr->left;
+            }
+            else{
+                if(prev != NULL && prev->val >= st.top()->val) return false;
+                prev = st.top();
+                curr = st.top()->right;
+                st.pop();
+            }
         }
         return true;
     }
