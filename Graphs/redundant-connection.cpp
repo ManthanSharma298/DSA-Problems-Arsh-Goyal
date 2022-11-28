@@ -61,7 +61,7 @@ class Solution {
 public:
     int find(int node, vector<int>& par){
         if(par[node] == node) return node;
-        return find(par[node], par);
+        return par[node] = find(par[node], par);    //update par array to reduce time complexity
     }
     vector<int> findRedundantConnection(vector<vector<int>>& edges) {
         int n = edges.size();
