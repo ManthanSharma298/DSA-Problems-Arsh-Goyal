@@ -1,6 +1,6 @@
 
 // k = 26 viz distinct number of elements
-// max heap: O(n+k+n), O(k+k*n)
+// max heap: O(n+k+n), O(k+k*n) k*n for tmp array for every iteration 
 class Solution {
 public:
     int leastInterval(vector<char>& tasks, int n) {
