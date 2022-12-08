@@ -1,5 +1,4 @@
 
-
 // using l, r index or 2D DP
 class Solution {
 public:
@@ -30,7 +29,8 @@ public:
     }
 };
 
-
+// recursion: O(2*N), O(N)
+// T(N) = T(N-1) + T(N-2) + T(N-3) +  ----- + T(0) -> 2^N
 // 2. Using 1D DP:
 class Solution {
 public:
