@@ -1,7 +1,7 @@
 
 
 // (TLE)
-// 1. bfs with pq: O(n*e), O(n*e)-> excluding graph
+// 1. bfs with pq: O(N + E*log(E*K)), O(N + E*K)-> excluding graph
 class Solution {
     const int inf = 1e9;
 public:
@@ -40,17 +40,45 @@ public:
     }
 };
 
-
-// 2. Bellman-ford Algorithm: O(n*e), O(n+k*n)
+// 2. bfs with queue: O(N + E), O(N + E)-> excluding graph
+// as edges(or steps/K) are important not the weight so pq is not required
 class Solution {
-	const int inf = 1e9;
 public:
     int findCheapestPrice(int n, vector<vector<int>>& flights, int src, int dst, int k) {
         vector<vector<pair<int, int> >> g(n);
         for(auto e: flights){
             g[e[0]].push_back({e[1], e[2]});
         }
+        queue<vector<int>> q;
+        vector<int> dist(n, INT_MAX);
+        dist[src] = 0;
+        q.push({src, 0, k+1});
+        
+        while(!q.empty()){
+            int sz = q.size();
+            for(int i=0; i<sz; ++i){
+                int node = q.front()[0], d = q.front()[1], kk = q.front()[2];
+                q.pop();
 
+                if(kk == 0) continue;
+                for(auto p: g[node]){
+                    if(dist[p.first] > d+p.second){
+                        dist[p.first] = d+p.second;
+                        q.push({p.first, d+p.second, kk-1});
+                    }
+                }
+            }
+        }
+        return dist[dst] == INT_MAX ? -1 : dist[dst];
+    }
+};
+
+// 3. Bellman-ford Algorithm: O((N+E)*K), O(N)
+// can also be used in -ve edges
+class Solution {
+	const int inf = 1e9;
+public:
+    int findCheapestPrice(int n, vector<vector<int>>& flights, int src, int dst, int k) {
         vector<int> dist(n, inf);
         dist[src] = 0;
         

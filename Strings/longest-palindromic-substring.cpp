@@ -1,6 +1,6 @@
 
 
-// O(N^2), O(1) -> excluding res
+// 1. count even and odd seperately: O(N^2), O(1) -> excluding res
 class Solution {
 public:
     string longestPalindrome(string s) {
@@ -42,5 +42,37 @@ public:
             }
         }
         return res;
+    }
+};
+
+
+// 2. DP: O(N*N), O(N*N)
+class Solution {
+public:
+    string longestPalindrome(string s) {
+        int n = s.size();
+        vector<vector<int>> dp(n, vector<int>(n, 0));
+        string ans = "";
+        for(int d=0; d<n; ++d){
+            for(int i=0, j=d; i<n && j<n; ++i, ++j){
+                if(d == 0){
+                    dp[i][j] = 1;
+                }
+                else if(d == 1){
+                    if(s[i] == s[j]){
+                        dp[i][j] = 1;
+                    }
+                }
+                else{
+                    if(s[i] == s[j] && dp[i+1][j-1]){
+                        dp[i][j] = 1;
+                    }
+                }
+                if(ans.size() < d+1 && dp[i][j]){
+                    ans = s.substr(i, j-i+1);
+                }
+            }
+        }
+        return ans;
     }
 };
