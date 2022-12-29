@@ -1,6 +1,6 @@
 
 
-// rec + memo: O(n*n), O(n*n)
+// 1. rec + memo: O(n*n), O(n*n)
 class Solution {
 public:
     bool rec(int i, int bal, string& s, vector<vector<int>>& dp){
@@ -30,5 +30,30 @@ public:
         int n = s.size();
         vector<vector<int>> dp(n+1, vector<int>(n+1, -1));
         return rec(0, 0, s, dp);
+    }
+};
+
+// 2. Greedy
+class Solution {
+public:
+    bool checkValidString(string s) {
+        int bmin = 0, bmax = 0;
+        for(char &c: s){
+            if(c == '('){
+                bmin++;
+                bmax++;
+            }
+            else if(c == ')'){
+                bmin--;
+                bmax--;
+            }
+            else{
+                bmin--;
+                bmax++;
+            }
+            if(bmax < 0) return false;
+            if(bmin < 0) bmin = 0;
+        }
+        return bmin == 0;
     }
 };
